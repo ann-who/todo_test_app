@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:todo_test_app/data_layer/task_status.dart';
+import 'package:todo_test_app/data_layer/models/task_status.dart';
+import 'package:todo_test_app/presentation_layer/common_widgets/status_label_widget.dart';
+import 'package:todo_test_app/presentation_layer/task_details_page/task_details_page.dart';
 import 'package:todo_test_app/resources/app_colors.dart';
 
 class TaskWidget extends StatefulWidget {
+  final TaskStatus status;
+
   const TaskWidget({
     Key? key,
+    required this.status,
   }) : super(key: key);
 
   @override
@@ -50,36 +55,48 @@ class _TaskWidgetState extends State<TaskWidget>
     return InkWell(
       borderRadius: BorderRadius.circular(16.0),
       onTap: () {
-        setState(() {
-          _isToggled = !_isToggled;
-        });
-        _animate();
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const TaskDetailsPage()),
+        );
       },
       child: Container(
         padding: const EdgeInsets.all(6.0),
         decoration: BoxDecoration(
+          color: Colors.white,
           border: Border.all(color: AppColors.blue),
           borderRadius: BorderRadius.circular(16.0),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Text(
-                    'Task short decription Sort but not too short',
-                  ),
-                ),
-                Text('10:00'),
-                const SizedBox(width: 8.0),
-                Text('24.11.2023'),
-              ],
+            Text(
+              'Task short decription Sort Task short decription Sort but not too short but not too short Task short decription Sort but not too short',
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w400,
+              ),
             ),
             const SizedBox(height: 16.0),
-            StatusLabel(
-              status: TaskStatus.fresh,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                StatusLabel(
+                  status: widget.status,
+                ),
+                const Spacer(),
+                Text(
+                  '10:00',
+                  style: TextStyle(color: Colors.grey),
+                ),
+                const SizedBox(width: 8.0),
+                Text(
+                  '24.11.2023',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
             ),
             SizeTransition(
               axisAlignment: 1.0,
@@ -94,46 +111,5 @@ class _TaskWidgetState extends State<TaskWidget>
         ),
       ),
     );
-  }
-}
-
-class StatusLabel extends StatelessWidget {
-  final TaskStatus status;
-
-  const StatusLabel({
-    super.key,
-    required this.status,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(6.0),
-      decoration: BoxDecoration(
-        color: _getLabelColor(status),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Text(_getLabelStatus(status)),
-    );
-  }
-
-  Color _getLabelColor(TaskStatus status) {
-    if (status == TaskStatus.fresh) {
-      return AppColors.lightBlue;
-    } else if (status == TaskStatus.inProgress) {
-      return AppColors.green;
-    } else {
-      return AppColors.violet;
-    }
-  }
-
-  String _getLabelStatus(TaskStatus status) {
-    if (status == TaskStatus.fresh) {
-      return 'Новая';
-    } else if (status == TaskStatus.inProgress) {
-      return 'В работе';
-    } else {
-      return 'Выполнена';
-    }
   }
 }

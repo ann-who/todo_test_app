@@ -1,21 +1,17 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
+
 import 'package:todo_test_app/resources/app_colors.dart';
 
 class WideAppBarWidget extends StatelessWidget {
-  const WideAppBarWidget({
-    Key? key,
-  }) : super(key: key);
+  const WideAppBarWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SliverPersistentHeader(
       pinned: true,
       delegate: MyHeaderDelegate(
-        appBarExpandedHeight: MediaQuery.of(context).size.height <= 800
-            ? MediaQuery.of(context).size.height / 5
-            : MediaQuery.of(context).size.height / 8,
+        appBarExpandedHeight: kToolbarHeight * 3,
         statusBarHeight: MediaQuery.of(context).viewPadding.top,
       ),
     );
@@ -68,15 +64,16 @@ class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
               children: [
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.check_circle,
+                      size: lerpDouble(32.0, 16.0, progress),
                       color: AppColors.lightOrange,
                     ),
                     Text(
                       'TODO',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: lerpDouble(32.0, 20.0, progress),
+                        fontSize: lerpDouble(32.0, 16.0, progress),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -87,7 +84,7 @@ class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
                   'You have __ new tasks',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: lerpDouble(16.0, 14.0, progress),
+                    fontSize: lerpDouble(18.0, 20.0, progress),
                   ),
                 ),
               ],
@@ -102,7 +99,7 @@ class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => appBarExpandedHeight;
 
   @override
-  double get minExtent => AppBar().preferredSize.height + statusBarHeight;
+  double get minExtent => kToolbarHeight + statusBarHeight;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
