@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:todo_test_app/business_logic/task_bloc/task.dart';
+import 'package:todo_test_app/presentation_layer/tasks_page/tasks_page.dart';
 import 'package:todo_test_app/resources/app_colors.dart';
 
-import 'presentation_layer/tasks_page/tasks_page.dart';
-
 void main() {
-  runApp(const MyApp());
+  runApp(BlocProvider(
+    create: (context) => TaskBloc(),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -17,6 +22,21 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: false,
         appBarTheme: const AppBarTheme(backgroundColor: AppColors.mainOrange),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            padding: const MaterialStatePropertyAll<EdgeInsetsGeometry>(
+              EdgeInsets.all(16.0),
+            ),
+            backgroundColor: const MaterialStatePropertyAll<Color>(
+              AppColors.blue,
+            ),
+            shape: MaterialStatePropertyAll<OutlinedBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24.0),
+              ),
+            ),
+          ),
+        ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: MaterialStateColor.resolveWith(

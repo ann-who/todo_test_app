@@ -1,54 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:todo_test_app/data_layer/models/task_status.dart';
+
+import 'package:todo_test_app/data_layer/models/task_model/task_model.dart';
 import 'package:todo_test_app/presentation_layer/common_widgets/status_label_widget.dart';
 import 'package:todo_test_app/presentation_layer/task_details_page/task_details_page.dart';
 import 'package:todo_test_app/resources/app_colors.dart';
+import 'package:todo_test_app/resources/extensions.dart';
 
-class TaskWidget extends StatefulWidget {
-  final TaskStatus status;
+class TaskWidget extends StatelessWidget {
+  final TaskModel task;
 
   const TaskWidget({
     Key? key,
-    required this.status,
+    required this.task,
   }) : super(key: key);
-
-  @override
-  State<TaskWidget> createState() => _TaskWidgetState();
-}
-
-class _TaskWidgetState extends State<TaskWidget>
-    with SingleTickerProviderStateMixin {
-  bool _isToggled = false;
-  late AnimationController _expandController;
-  late Animation<double> _animation;
-
-  @override
-  void initState() {
-    _expandController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 500),
-    );
-    _animation = CurvedAnimation(
-      parent: _expandController,
-      curve: Curves.easeInOut,
-    );
-
-    super.initState();
-  }
-
-  void _animate() {
-    if (_isToggled) {
-      _expandController.forward();
-    } else {
-      _expandController.reverse();
-    }
-  }
-
-  @override
-  void dispose() {
-    _expandController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +21,7 @@ class _TaskWidgetState extends State<TaskWidget>
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const TaskDetailsPage()),
+          MaterialPageRoute(builder: (context) => TaskDetailsPage(task: task)),
         );
       },
       child: Container(
@@ -71,7 +35,7 @@ class _TaskWidgetState extends State<TaskWidget>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Task short decription Sort Task short decription Sort but not too short but not too short Task short decription Sort but not too short',
+              task.shortDescription,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -83,29 +47,18 @@ class _TaskWidgetState extends State<TaskWidget>
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                StatusLabel(
-                  status: widget.status,
-                ),
+                StatusLabel(task: task),
                 const Spacer(),
                 Text(
-                  '10:00',
+                  task.creationDate.parseTime(),
                   style: TextStyle(color: Colors.grey),
                 ),
                 const SizedBox(width: 8.0),
                 Text(
-                  '24.11.2023',
+                  task.creationDate.parseDayMonthYear(),
                   style: TextStyle(color: Colors.grey),
                 ),
               ],
-            ),
-            SizeTransition(
-              axisAlignment: 1.0,
-              sizeFactor: _animation,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Text(
-                    'LOOOOOOOOOOOOOOOOOOOOOONG DESCRIPTION LOOOOOOOOOOOOOOOOOOOOOONG DESCRIPTION LOOOOOOOOOOOOOOOOOOOOOONG DESCRIPTION LOOOOOOOOOOOOOOOOOOOOOONG DESCRIPTION'),
-              ),
             ),
           ],
         ),

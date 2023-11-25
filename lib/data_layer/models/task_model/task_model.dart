@@ -10,12 +10,12 @@ part 'task_model.g.dart';
 @freezed
 class TaskModel with _$TaskModel {
   const factory TaskModel({
+    required int id,
     required String shortDescription,
     String? detailedDescription,
     @JsonKey(fromJson: TaskStatus.fromJson, toJson: TaskStatus.toJson)
     required TaskStatus status,
     required DateTime creationDate,
-    required DateTime creationTime,
   }) = _TaskModel;
 
   factory TaskModel.fromJson(Map<String, Object?> json) =>

@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:todo_test_app/data_layer/models/task_status.dart';
+
+import 'package:todo_test_app/data_layer/models/task_model/task_model.dart';
 import 'package:todo_test_app/presentation_layer/common_widgets/status_label_widget.dart';
+import 'package:todo_test_app/resources/extensions.dart';
 
 class TaskDetailsPage extends StatelessWidget {
-  const TaskDetailsPage({super.key});
+  final TaskModel task;
+
+  const TaskDetailsPage({super.key, required this.task});
 
   @override
   Widget build(BuildContext context) {
+    bool hasDescription = task.detailedDescription != null &&
+        task.detailedDescription!.isNotEmpty;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Current task is:'),
+        title: const Text('Ваша задача:'),
         actions: [
           IconButton(onPressed: () {}, icon: Icon(Icons.delete_rounded))
         ],
@@ -19,24 +26,34 @@ class TaskDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('This is a short description'),
-            const SizedBox(height: 16.0),
             Text(
-                'loooooooooooooooooooong detaaaailed yedg weufgue description.................... ............................'),
+              task.shortDescription,
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            if (hasDescription) const SizedBox(height: 16.0),
+            if (hasDescription)
+              Text(
+                task.detailedDescription!,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w200,
+                ),
+              ),
             const SizedBox(height: 16.0),
             Row(
               children: [
-                StatusLabel(
-                  status: TaskStatus.fresh,
-                ),
+                StatusLabel(task: task),
                 const Spacer(),
                 Text(
-                  '10:00',
+                  task.creationDate.parseTime(),
                   style: TextStyle(color: Colors.grey),
                 ),
                 const SizedBox(width: 8.0),
                 Text(
-                  '24.11.2023',
+                  task.creationDate.parseDayMonthYear(),
                   style: TextStyle(color: Colors.grey),
                 ),
               ],

@@ -20,12 +20,12 @@ TaskModel _$TaskModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TaskModel {
+  int get id => throw _privateConstructorUsedError;
   String get shortDescription => throw _privateConstructorUsedError;
   String? get detailedDescription => throw _privateConstructorUsedError;
   @JsonKey(fromJson: TaskStatus.fromJson, toJson: TaskStatus.toJson)
   TaskStatus get status => throw _privateConstructorUsedError;
   DateTime get creationDate => throw _privateConstructorUsedError;
-  DateTime get creationTime => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,12 +39,12 @@ abstract class $TaskModelCopyWith<$Res> {
       _$TaskModelCopyWithImpl<$Res, TaskModel>;
   @useResult
   $Res call(
-      {String shortDescription,
+      {int id,
+      String shortDescription,
       String? detailedDescription,
       @JsonKey(fromJson: TaskStatus.fromJson, toJson: TaskStatus.toJson)
       TaskStatus status,
-      DateTime creationDate,
-      DateTime creationTime});
+      DateTime creationDate});
 }
 
 /// @nodoc
@@ -60,13 +60,17 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? shortDescription = null,
     Object? detailedDescription = freezed,
     Object? status = null,
     Object? creationDate = null,
-    Object? creationTime = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       shortDescription: null == shortDescription
           ? _value.shortDescription
           : shortDescription // ignore: cast_nullable_to_non_nullable
@@ -82,10 +86,6 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
       creationDate: null == creationDate
           ? _value.creationDate
           : creationDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      creationTime: null == creationTime
-          ? _value.creationTime
-          : creationTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
     ) as $Val);
   }
@@ -100,12 +100,12 @@ abstract class _$$TaskModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String shortDescription,
+      {int id,
+      String shortDescription,
       String? detailedDescription,
       @JsonKey(fromJson: TaskStatus.fromJson, toJson: TaskStatus.toJson)
       TaskStatus status,
-      DateTime creationDate,
-      DateTime creationTime});
+      DateTime creationDate});
 }
 
 /// @nodoc
@@ -119,13 +119,17 @@ class __$$TaskModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? shortDescription = null,
     Object? detailedDescription = freezed,
     Object? status = null,
     Object? creationDate = null,
-    Object? creationTime = null,
   }) {
     return _then(_$TaskModelImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       shortDescription: null == shortDescription
           ? _value.shortDescription
           : shortDescription // ignore: cast_nullable_to_non_nullable
@@ -142,10 +146,6 @@ class __$$TaskModelImplCopyWithImpl<$Res>
           ? _value.creationDate
           : creationDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      creationTime: null == creationTime
-          ? _value.creationTime
-          : creationTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
     ));
   }
 }
@@ -154,16 +154,18 @@ class __$$TaskModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TaskModelImpl implements _TaskModel {
   const _$TaskModelImpl(
-      {required this.shortDescription,
+      {required this.id,
+      required this.shortDescription,
       this.detailedDescription,
       @JsonKey(fromJson: TaskStatus.fromJson, toJson: TaskStatus.toJson)
       required this.status,
-      required this.creationDate,
-      required this.creationTime});
+      required this.creationDate});
 
   factory _$TaskModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$TaskModelImplFromJson(json);
 
+  @override
+  final int id;
   @override
   final String shortDescription;
   @override
@@ -173,12 +175,10 @@ class _$TaskModelImpl implements _TaskModel {
   final TaskStatus status;
   @override
   final DateTime creationDate;
-  @override
-  final DateTime creationTime;
 
   @override
   String toString() {
-    return 'TaskModel(shortDescription: $shortDescription, detailedDescription: $detailedDescription, status: $status, creationDate: $creationDate, creationTime: $creationTime)';
+    return 'TaskModel(id: $id, shortDescription: $shortDescription, detailedDescription: $detailedDescription, status: $status, creationDate: $creationDate)';
   }
 
   @override
@@ -186,21 +186,20 @@ class _$TaskModelImpl implements _TaskModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TaskModelImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.shortDescription, shortDescription) ||
                 other.shortDescription == shortDescription) &&
             (identical(other.detailedDescription, detailedDescription) ||
                 other.detailedDescription == detailedDescription) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.creationDate, creationDate) ||
-                other.creationDate == creationDate) &&
-            (identical(other.creationTime, creationTime) ||
-                other.creationTime == creationTime));
+                other.creationDate == creationDate));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, shortDescription,
-      detailedDescription, status, creationDate, creationTime);
+  int get hashCode => Object.hash(runtimeType, id, shortDescription,
+      detailedDescription, status, creationDate);
 
   @JsonKey(ignore: true)
   @override
@@ -218,16 +217,18 @@ class _$TaskModelImpl implements _TaskModel {
 
 abstract class _TaskModel implements TaskModel {
   const factory _TaskModel(
-      {required final String shortDescription,
+      {required final int id,
+      required final String shortDescription,
       final String? detailedDescription,
       @JsonKey(fromJson: TaskStatus.fromJson, toJson: TaskStatus.toJson)
       required final TaskStatus status,
-      required final DateTime creationDate,
-      required final DateTime creationTime}) = _$TaskModelImpl;
+      required final DateTime creationDate}) = _$TaskModelImpl;
 
   factory _TaskModel.fromJson(Map<String, dynamic> json) =
       _$TaskModelImpl.fromJson;
 
+  @override
+  int get id;
   @override
   String get shortDescription;
   @override
@@ -237,8 +238,6 @@ abstract class _TaskModel implements TaskModel {
   TaskStatus get status;
   @override
   DateTime get creationDate;
-  @override
-  DateTime get creationTime;
   @override
   @JsonKey(ignore: true)
   _$$TaskModelImplCopyWith<_$TaskModelImpl> get copyWith =>

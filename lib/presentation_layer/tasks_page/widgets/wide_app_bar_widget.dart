@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:todo_test_app/business_logic/task_bloc/task.dart';
 import 'package:todo_test_app/resources/app_colors.dart';
 
 class WideAppBarWidget extends StatelessWidget {
@@ -79,13 +81,18 @@ class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
                     ),
                   ],
                 ),
-                // TODO new tasks counter
-                Text(
-                  'You have __ new tasks',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: lerpDouble(18.0, 20.0, progress),
-                  ),
+                BlocBuilder<TaskBloc, TaskState>(
+                  buildWhen: (previous, current) =>
+                      previous.newTasksCounter != current.newTasksCounter,
+                  builder: (context, state) {
+                    return Text(
+                      'You have ${state.newTasksCounter} new tasks',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: lerpDouble(18.0, 20.0, progress),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
