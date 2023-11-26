@@ -20,12 +20,10 @@ class TaskWidget extends StatelessWidget {
 
     return InkWell(
       borderRadius: BorderRadius.circular(16.0),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => TaskDetailsPage(task: task)),
-        );
-      },
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => TaskDetailsPage(id: task.id)),
+      ),
       child: Container(
         padding: const EdgeInsets.all(6.0),
         decoration: BoxDecoration(
@@ -44,7 +42,7 @@ class TaskWidget extends StatelessWidget {
             ),
             const SizedBox(height: 16.0),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 StatusLabel(task: task),
                 const Spacer(),

@@ -15,7 +15,7 @@ class TaskCreated extends TaskEvent {
 }
 
 class TaskDeleted extends TaskEvent {
-  final int id;
+  final String id;
 
   TaskDeleted({required this.id});
 }
@@ -24,10 +24,4 @@ class TaskStatusChanged extends TaskEvent {
   final TaskModel task;
 
   TaskStatusChanged({required this.task});
-}
-
-class TaskDetailsOpened extends TaskEvent {
-  final TaskModel task;
-
-  TaskDetailsOpened({required this.task});
 }

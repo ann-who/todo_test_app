@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'package:todo_test_app/data_layer/models/task_model/task_model.dart';
 import 'package:todo_test_app/data_layer/models/task_status.dart';
 
@@ -13,7 +14,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<TaskCreated>(_onTaskCreated);
     on<TaskDeleted>(_onTaskDeleted);
     on<TaskStatusChanged>(_onTaskStatusChanged);
-    on<TaskDetailsOpened>(_onTaskDetailsOpened);
   }
 
   void _onTasksListLoaded(
@@ -115,12 +115,5 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         newTasksCounter: newTasksCounter,
       ),
     );
-  }
-
-  void _onTaskDetailsOpened(
-    TaskDetailsOpened event,
-    Emitter<TaskState> emit,
-  ) async {
-    emit(state.copyWith(currentTask: event.task));
   }
 }

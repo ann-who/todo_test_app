@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:todo_test_app/business_logic/task_bloc/task.dart';
 import 'package:todo_test_app/data_layer/models/task_model/task_model.dart';
 import 'package:todo_test_app/data_layer/models/task_status.dart';
+import 'package:uuid/uuid.dart';
 
 class CreateTask {
   CreateTask._();
@@ -73,7 +73,7 @@ class _CreateTaskBodyState extends State<CreateTaskBody> {
                   decoration: InputDecoration(
                     hintText: locale.taskTitle,
                     hintStyle: textTheme.bodyMedium,
-                    errorText: hasError ? 'Enter text' : null,
+                    errorText: hasError ? locale.enterText : null,
                   ),
                   controller: titleController,
                   onChanged: (value) {
@@ -102,7 +102,7 @@ class _CreateTaskBodyState extends State<CreateTaskBody> {
                         context.read<TaskBloc>().add(
                               TaskCreated(
                                 task: TaskModel(
-                                  id: Random().nextInt(100),
+                                  id: const Uuid().v4(),
                                   shortDescription: titleController.text.trim(),
                                   detailedDescription:
                                       descriptionController.text.trim(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_test_app/presentation_layer/settings_page/settings_page.dart';
 
 import 'package:todo_test_app/presentation_layer/tasks_page/widgets/create_task_widget.dart';
 import 'package:todo_test_app/presentation_layer/tasks_page/widgets/tasks_list_widget.dart';
@@ -27,28 +28,31 @@ class _TasksPageState extends State<TasksPage> {
           ],
         ),
       ),
-      // bottomNavigationBar: BottomAppBar(
-      //   shape: const CircularNotchedRectangle(),
-      //   child: Row(
-      //     children: <Widget>[
-      //       IconButton(
-      //         icon: const Icon(
-      //           Icons.person_outlined,
-      //           color: AppColors.mainOrange,
-      //         ),
-      //         onPressed: () {},
-      //       ),
-      //       IconButton(
-      //         icon: const Icon(
-      //           Icons.settings_outlined,
-      //           color: AppColors.mainOrange,
-      //         ),
-      //         onPressed: () {},
-      //       ),
-      //     ],
-      //   ),
-      // ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        child: Row(
+          children: <Widget>[
+            IconButton(
+              icon: const Icon(
+                Icons.person_outlined,
+                color: AppColors.mainOrange,
+              ),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: const Icon(
+                Icons.settings_outlined,
+                color: AppColors.mainOrange,
+              ),
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsPage()),
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () => CreateTask.modalBottomSheet(context),
         child: const Icon(Icons.add),

@@ -20,7 +20,11 @@
     "alreadyDone": "Задача уже\nвыполнена",
     "newTask": "Новая задача",
     "taskTitle": "Заголовок или короткое описание",
+    "enterText": "Введите текст",
     "taskDescription": "Описание задачи",
     "createTask": "Создать задачу",
-    "currentTask": "Ваша задача:"
+    "currentTask": "Ваша задача:",
+    "settings": "Настройки",
+    "theme": "Тема",
+    "language": "Язык"
 }

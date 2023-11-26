@@ -53,16 +53,8 @@ class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
           // Animated title and subtitle
           AnimatedContainer(
             duration: const Duration(milliseconds: 300),
-            padding: EdgeInsets.lerp(
-              const EdgeInsets.only(left: 30),
-              const EdgeInsets.only(left: 16.0, top: 24.0),
-              progress,
-            ),
-            alignment: Alignment.lerp(
-              Alignment.bottomLeft,
-              Alignment.centerLeft,
-              progress,
-            ),
+            padding: const EdgeInsets.only(left: 16.0),
+            alignment: Alignment.bottomLeft,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
@@ -94,6 +86,7 @@ class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
                     );
                   },
                 ),
+                const SizedBox(height: 8.0),
               ],
             ),
           ),
