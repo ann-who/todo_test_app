@@ -51,7 +51,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
     emit(
       state.copyWith(
-        isLoading: false,
         tasks: updatedTasks,
         newTasksCounter: newTasksCounter,
       ),
@@ -85,7 +84,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
     emit(
       state.copyWith(
-        isLoading: false,
         tasks: updatedTasks,
         newTasksCounter: newTasksCounter,
       ),
@@ -106,10 +104,15 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
     updatedTasks[updatedTaskIndex] = taskNeededUpdate;
 
+    var newTasksCounter = updatedTasks
+        .where((task) => task.status == TaskStatus.fresh)
+        .toList()
+        .length;
+
     emit(
       state.copyWith(
-        isLoading: false,
         tasks: updatedTasks,
+        newTasksCounter: newTasksCounter,
       ),
     );
   }

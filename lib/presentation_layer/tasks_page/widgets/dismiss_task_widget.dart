@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:todo_test_app/business_logic/task_bloc/task_bloc.dart';
 import 'package:todo_test_app/data_layer/models/task_model/task_model.dart';
 import 'package:todo_test_app/data_layer/models/task_status.dart';
 import 'package:todo_test_app/resources/app_colors.dart';
@@ -15,26 +19,33 @@ class DismissTask extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return ClipRRect(
       clipBehavior: Clip.hardEdge,
       borderRadius: const BorderRadius.all(Radius.circular(16.0)),
       child: Dismissible(
         key: ValueKey(task.id),
         confirmDismiss: (DismissDirection direction) async {
-          bool needDelete = false;
+          bool canDelete = task.status == TaskStatus.fresh;
+
           if (direction == DismissDirection.startToEnd) {
-          } else if (direction == DismissDirection.endToStart) {}
-          return needDelete;
+            context.read<TaskBloc>().add(TaskStatusChanged(task: task));
+            canDelete = false;
+          } else if (direction == DismissDirection.endToStart && canDelete) {
+            context.read<TaskBloc>().add(TaskDeleted(id: task.id));
+          }
+          return canDelete;
         },
         background: ChangeStatusBackground(
           status: task.status,
-          title: _getNextLabelStatus(task.status),
+          title: _getNextLabelStatus(task.status, locale),
           color: _getNextLabelColor(task.status),
         ),
         secondaryBackground: DeleteBackground(
           color: _getDeleteColor(task.status),
         ),
-        child: Container(
+        child: DecoratedBox(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.centerLeft,
@@ -69,13 +80,13 @@ class DismissTask extends StatelessWidget {
     }
   }
 
-  String _getNextLabelStatus(TaskStatus status) {
+  String _getNextLabelStatus(TaskStatus status, AppLocalizations locale) {
     if (status == TaskStatus.fresh) {
-      return 'В работe';
+      return locale.inProgress;
     } else if (status == TaskStatus.inProgress) {
-      return 'Выполнена';
+      return locale.done;
     } else {
-      return 'Задача уже\nвыполнена';
+      return locale.alreadyDone;
     }
   }
 }
@@ -117,6 +128,8 @@ class ChangeStatusBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var textTheme = Theme.of(context).textTheme;
+
     return Container(
       alignment: Alignment.centerLeft,
       color: color,
@@ -127,7 +140,10 @@ class ChangeStatusBackground extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(title),
+            Text(
+              title,
+              style: textTheme.labelMedium,
+            ),
             if (status != TaskStatus.done)
               const Icon(
                 Icons.arrow_right_alt_rounded,

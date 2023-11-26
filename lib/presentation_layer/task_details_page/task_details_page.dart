@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:todo_test_app/business_logic/task_bloc/task.dart';
 
 import 'package:todo_test_app/data_layer/models/task_model/task_model.dart';
+import 'package:todo_test_app/data_layer/models/task_status.dart';
 import 'package:todo_test_app/presentation_layer/common_widgets/status_label_widget.dart';
 import 'package:todo_test_app/resources/extensions.dart';
 
@@ -11,14 +15,29 @@ class TaskDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final locale = AppLocalizations.of(context)!;
     bool hasDescription = task.detailedDescription != null &&
         task.detailedDescription!.isNotEmpty;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ваша задача:'),
+        title: Text(locale.currentTask),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.delete_rounded))
+          BlocBuilder<TaskBloc, TaskState>(
+            builder: (context, state) {
+              if (task.status == TaskStatus.fresh) {
+                return IconButton(
+                  onPressed: () {
+                    context.read<TaskBloc>().add(TaskDeleted(id: task.id));
+                    Navigator.of(context).pop();
+                  },
+                  icon: const Icon(Icons.delete_rounded),
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          )
         ],
       ),
       body: SingleChildScrollView(
@@ -28,33 +47,32 @@ class TaskDetailsPage extends StatelessWidget {
           children: [
             Text(
               task.shortDescription,
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.w400,
-              ),
+              style: textTheme.headlineSmall,
             ),
+            const Divider(),
             if (hasDescription) const SizedBox(height: 16.0),
             if (hasDescription)
               Text(
                 task.detailedDescription!,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w200,
-                ),
+                style: textTheme.bodyLarge,
               ),
             const SizedBox(height: 16.0),
             Row(
               children: [
-                StatusLabel(task: task),
+                BlocBuilder<TaskBloc, TaskState>(
+                  builder: (context, state) {
+                    return StatusLabel(task: task);
+                  },
+                ),
                 const Spacer(),
                 Text(
                   task.creationDate.parseTime(),
-                  style: TextStyle(color: Colors.grey),
+                  style: textTheme.labelSmall,
                 ),
                 const SizedBox(width: 8.0),
                 Text(
                   task.creationDate.parseDayMonthYear(),
-                  style: TextStyle(color: Colors.grey),
+                  style: textTheme.labelSmall,
                 ),
               ],
             )

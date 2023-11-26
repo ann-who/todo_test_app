@@ -1,0 +1,23 @@
+{
+    "appName": "TODO",
+    "newTasks": "У вас {count, plural, =1{{count} новая задача} other{{count} новых задач}}",
+    "@newTasks": {
+        "description": "A plural message",
+        "placeholders": {
+            "count": {
+            "type": "int",
+            "format": "compact"
+            }
+        }
+    },
+    "empty": "Пусто :(\nДобавьте задачи и мы покажем их здесь",
+    "newStatus": "Новая",
+    "inProgress": "В работe",
+    "done": "Выполнена",
+    "alreadyDone": "Задача уже\nвыполнена",
+    "newTask": "Новая задача",
+    "taskTitle": "Заголовок или короткое описание",
+    "taskDescription": "Описание задачи",
+    "createTask": "Создать задачу",
+    "currentTask": "Ваша задача:"
+}

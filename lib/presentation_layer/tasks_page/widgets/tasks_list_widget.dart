@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:todo_test_app/business_logic/task_bloc/task.dart';
 import 'package:todo_test_app/presentation_layer/tasks_page/widgets/dismiss_task_widget.dart';
@@ -10,30 +11,43 @@ class TasksListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final locale = AppLocalizations.of(context)!;
+
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: BlocBuilder<TaskBloc, TaskState>(
           builder: (context, state) {
-            if (state.tasks.isEmpty) {
-              return const Center(
-                child: Text('У вас пока нет задач'),
+            if (state.isLoading) {
+              return const CircularProgressIndicator();
+            } else if (state.tasks.isEmpty) {
+              return Center(
+                child: Text(
+                  locale.empty,
+                  textAlign: TextAlign.center,
+                  style: textTheme.bodyLarge,
+                ),
               );
             }
-            return ListView.separated(
-              padding: EdgeInsets.zero,
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: state.tasks.length,
-              itemBuilder: (BuildContext context, int index) {
-                return DismissTask(
-                  task: state.tasks[index],
-                  child: TaskWidget(task: state.tasks[index]),
+            return BlocBuilder<TaskBloc, TaskState>(
+              builder: (context, state) {
+                return ListView.separated(
+                  padding: EdgeInsets.zero,
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: state.tasks.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return DismissTask(
+                      task: state.tasks[index],
+                      child: TaskWidget(task: state.tasks[index]),
+                    );
+                  },
+                  separatorBuilder: (context, index) => const SizedBox(
+                    height: 16.0,
+                  ),
                 );
               },
-              separatorBuilder: (context, index) => const SizedBox(
-                height: 16.0,
-              ),
             );
           },
         ),

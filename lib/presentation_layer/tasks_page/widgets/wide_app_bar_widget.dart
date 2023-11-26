@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:todo_test_app/business_logic/task_bloc/task.dart';
 import 'package:todo_test_app/resources/app_colors.dart';
@@ -36,6 +37,8 @@ class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
     bool overlapsContent,
   ) {
     final progress = shrinkOffset / maxExtent;
+    final textTheme = Theme.of(context).textTheme;
+    final locale = AppLocalizations.of(context)!;
 
     return Material(
       child: Stack(
@@ -72,11 +75,9 @@ class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
                       color: AppColors.lightOrange,
                     ),
                     Text(
-                      'TODO',
-                      style: TextStyle(
-                        color: Colors.white,
+                      locale.appName,
+                      style: textTheme.headlineLarge!.copyWith(
                         fontSize: lerpDouble(32.0, 16.0, progress),
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
@@ -86,9 +87,8 @@ class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
                       previous.newTasksCounter != current.newTasksCounter,
                   builder: (context, state) {
                     return Text(
-                      'You have ${state.newTasksCounter} new tasks',
-                      style: TextStyle(
-                        color: Colors.white,
+                      locale.newTasks(state.newTasksCounter),
+                      style: textTheme.headlineMedium!.copyWith(
                         fontSize: lerpDouble(18.0, 20.0, progress),
                       ),
                     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:todo_test_app/presentation_layer/tasks_page/widgets/create_task_widget.dart';
 import 'package:todo_test_app/presentation_layer/tasks_page/widgets/tasks_list_widget.dart';
 import 'package:todo_test_app/presentation_layer/tasks_page/widgets/wide_app_bar_widget.dart';
@@ -17,9 +18,7 @@ class _TasksPageState extends State<TasksPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: WillPopScope(
-        onWillPop: () async {
-          return false;
-        },
+        onWillPop: () async => false,
         child: const CustomScrollView(
           physics: BouncingScrollPhysics(),
           slivers: <Widget>[
@@ -51,8 +50,6 @@ class _TasksPageState extends State<TasksPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.mainOrange,
-        foregroundColor: AppColors.lightOrange,
         onPressed: () => CreateTask.modalBottomSheet(context),
         child: const Icon(Icons.add),
       ),

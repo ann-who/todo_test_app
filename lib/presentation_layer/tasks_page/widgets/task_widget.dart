@@ -16,6 +16,8 @@ class TaskWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var textTheme = Theme.of(context).textTheme;
+
     return InkWell(
       borderRadius: BorderRadius.circular(16.0),
       onTap: () {
@@ -38,10 +40,7 @@ class TaskWidget extends StatelessWidget {
               task.shortDescription,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.w400,
-              ),
+              style: textTheme.headlineSmall,
             ),
             const SizedBox(height: 16.0),
             Row(
@@ -51,12 +50,12 @@ class TaskWidget extends StatelessWidget {
                 const Spacer(),
                 Text(
                   task.creationDate.parseTime(),
-                  style: TextStyle(color: Colors.grey),
+                  style: textTheme.labelSmall,
                 ),
                 const SizedBox(width: 8.0),
                 Text(
                   task.creationDate.parseDayMonthYear(),
-                  style: TextStyle(color: Colors.grey),
+                  style: textTheme.labelSmall,
                 ),
               ],
             ),
