@@ -51,6 +51,15 @@ class AppTheme {
         borderRadius: BorderRadius.circular(12.0),
         borderSide: const BorderSide(color: AppColors.blue),
       ),
+      suffixIconColor: MaterialStateColor.resolveWith(
+        (Set<MaterialState> states) {
+          if (states.contains(MaterialState.focused)) {
+            return AppColors.blue;
+          } else {
+            return Colors.grey;
+          }
+        },
+      ),
     ),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       color: AppColors.lightOrange,

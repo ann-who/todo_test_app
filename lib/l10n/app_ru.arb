@@ -1,5 +1,8 @@
 {
     "appName": "TODO",
+    "login": "Логин",
+    "password": "Пароль",
+    "goNext": "Продолжить",
     "newTasks": "У вас {count, plural, =1{{count} новая задача} other{{count} новых задач}}",
     "@newTasks": {
         "description": "A plural message",

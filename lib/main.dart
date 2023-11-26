@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:todo_test_app/business_logic/task_bloc/task.dart';
+import 'package:todo_test_app/presentation_layer/authorization_page/authorization_page.dart';
 import 'package:todo_test_app/presentation_layer/tasks_page/tasks_page.dart';
 import 'package:todo_test_app/resources/app_theme.dart';
 
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: AppTheme().lightTheme,
-      home: const TasksPage(),
+      home: const AuthorizationPage(),
     );
   }
 }

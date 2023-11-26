@@ -27,28 +27,28 @@ class _TasksPageState extends State<TasksPage> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        child: Row(
-          children: <Widget>[
-            IconButton(
-              icon: const Icon(
-                Icons.person_outlined,
-                color: AppColors.mainOrange,
-              ),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: const Icon(
-                Icons.settings_outlined,
-                color: AppColors.mainOrange,
-              ),
-              onPressed: () {},
-            ),
-          ],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      // bottomNavigationBar: BottomAppBar(
+      //   shape: const CircularNotchedRectangle(),
+      //   child: Row(
+      //     children: <Widget>[
+      //       IconButton(
+      //         icon: const Icon(
+      //           Icons.person_outlined,
+      //           color: AppColors.mainOrange,
+      //         ),
+      //         onPressed: () {},
+      //       ),
+      //       IconButton(
+      //         icon: const Icon(
+      //           Icons.settings_outlined,
+      //           color: AppColors.mainOrange,
+      //         ),
+      //         onPressed: () {},
+      //       ),
+      //     ],
+      //   ),
+      // ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () => CreateTask.modalBottomSheet(context),
         child: const Icon(Icons.add),
