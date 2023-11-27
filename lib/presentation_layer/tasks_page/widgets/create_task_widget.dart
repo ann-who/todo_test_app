@@ -15,14 +15,7 @@ class CreateTask {
       context: context,
       useSafeArea: true,
       useRootNavigator: true,
-      backgroundColor: Colors.white,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(24.0),
-        ),
-      ),
-      clipBehavior: Clip.hardEdge,
       builder: (BuildContext context) {
         return const CreateTaskBody();
       },

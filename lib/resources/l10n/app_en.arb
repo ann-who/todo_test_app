@@ -1,0 +1,34 @@
+{
+    "appName": "TODO",
+    "login": "Login",
+    "password": "Password",
+    "goNext": "Continue",
+    "newTasks": "You have {count, plural, =1{{count} new task} other{{count} new tasks}}",
+    "@newTasks": {
+        "description": "A plural message",
+        "placeholders": {
+            "count": {
+            "type": "int",
+            "format": "compact"
+            }
+        }
+    },
+    "empty": "No tasks yet :(\nAdd tasks and we'll show them here",
+    "newStatus": "New",
+    "inProgress": "In progress",
+    "done": "Done",
+    "alreadyDone": "Already\ndone",
+    "newTask": "New task",
+    "taskTitle": "Title or short description",
+    "enterText": "Enter text",
+    "taskDescription": "Task description",
+    "createTask": "Create task",
+    "currentTask": "Your task is:",
+    "settings": "Settings",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "language": "Language",
+    "russian": "Russian",
+    "english": "English"
+}

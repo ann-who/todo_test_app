@@ -3,7 +3,7 @@
     "login": "Логин",
     "password": "Пароль",
     "goNext": "Продолжить",
-    "newTasks": "У вас {count, plural, =1{{count} новая задача} other{{count} новых задач}}",
+    "newTasks": "У вас {count, plural, =1{{count} новая задача} few{{count} новые задачи} other{{count} новых задач}}",
     "@newTasks": {
         "description": "A plural message",
         "placeholders": {
@@ -26,5 +26,9 @@
     "currentTask": "Ваша задача:",
     "settings": "Настройки",
     "theme": "Тема",
-    "language": "Язык"
+    "light": "Светлая",
+    "dark": "Тёмная",
+    "language": "Язык",
+    "russian": "Русский",
+    "english": "Английский"
 }

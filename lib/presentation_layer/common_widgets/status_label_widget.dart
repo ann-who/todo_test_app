@@ -44,7 +44,7 @@ class _StatusLabelState extends State<StatusLabel> {
                   .add(TaskStatusChanged(task: widget.task)),
               child: Text(
                 text,
-                style: textTheme.labelMedium!.copyWith(color: Colors.black),
+                style: textTheme.labelLarge,
               ),
             ),
           )
