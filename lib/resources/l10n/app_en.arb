@@ -1,6 +1,6 @@
 {
     "appName": "TODO",
-    "login": "Login",
+    "login": "E-mail",
     "password": "Password",
     "goNext": "Continue",
     "newTasks": "You have {count, plural, =1{{count} new task} other{{count} new tasks}}",
