@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:todo_test_app/data_layer/models/task_model/task_model.dart';
 import 'package:todo_test_app/data_layer/models/task_status.dart';
@@ -7,18 +8,25 @@ class TasksDataSource {
   final tasksDb = FirebaseFirestore.instance.collection('tasks');
 
   Future<List<TaskModel>> loadExistingTasks() async {
-    QuerySnapshot tasks;
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    QuerySnapshot? tasks;
     List<TaskModel> existingTasks = [];
-    try {
-      tasks = await tasksDb.orderBy('creationDate', descending: true).get();
 
+    try {
+      tasks = await tasksDb
+          .where('userId', isEqualTo: userId)
+          .orderBy('creationDate', descending: true)
+          .get();
+    } on FirebaseException catch (e) {}
+
+    if (tasks == null) {
+      return existingTasks;
+    } else {
       existingTasks = tasks.docs
           .map((doc) => TaskModel.fromJson(doc.data() as Map<String, dynamic>))
           .toList();
 
       return existingTasks;
-    } on FirebaseException catch (e) {
-      throw e;
     }
   }
 

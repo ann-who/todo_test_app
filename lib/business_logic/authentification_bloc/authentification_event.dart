@@ -19,3 +19,7 @@ class UserAuthorized extends AuthentificationEvent {
 class PasswordShowed extends AuthentificationEvent {
   PasswordShowed();
 }
+
+class UserSignedOut extends AuthentificationEvent {
+  UserSignedOut();
+}

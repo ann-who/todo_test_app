@@ -12,6 +12,7 @@ part 'task_model.g.dart';
 class TaskModel with _$TaskModel {
   const factory TaskModel({
     @Default('') String databaseId,
+    @Default('') String userId,
     required String id,
     required String shortDescription,
     String? detailedDescription,

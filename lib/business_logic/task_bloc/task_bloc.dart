@@ -17,6 +17,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<TaskCreated>(_onTaskCreated);
     on<TaskDeleted>(_onTaskDeleted);
     on<TaskStatusChanged>(_onTaskStatusChanged);
+    on<UserSignedOut>(_onUserSignedOut);
   }
 
   void _onTasksListLoaded(
@@ -126,5 +127,12 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         newTasksCounter: newTasksCounter,
       ),
     );
+  }
+
+  void _onUserSignedOut(
+    UserSignedOut event,
+    Emitter<TaskState> emit,
+  ) {
+    emit(state.copyWith(tasks: [], newTasksCounter: 0));
   }
 }

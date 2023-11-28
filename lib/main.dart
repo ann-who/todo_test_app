@@ -32,7 +32,7 @@ void main() async {
             tasksRepository: TasksRepositoryImplementation(
               tasksDataSource: TasksDataSource(),
             ),
-          )..add(TasksListLoaded()),
+          ),
         ),
         BlocProvider(
           create: (context) => SettingsBloc()..add(SettingsLoaded()),
@@ -57,18 +57,25 @@ class MyApp extends StatelessWidget {
           theme: state.currentTheme == 'light'
               ? AppTheme().lightTheme
               : AppTheme().darkTheme,
-          home: StreamBuilder(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.active) {
-                User? user = snapshot.data;
-                if (user == null) {
-                  return AuthorizationPage();
-                } else {
-                  return const TasksPage();
-                }
-              }
-              return const CircularProgressIndicator();
+          home: BlocBuilder<AuthentificationBloc, AuthentificationState>(
+            buildWhen: (previous, current) =>
+                previous.isAuthorized != current.isAuthorized,
+            builder: (context, state) {
+              return StreamBuilder(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.active) {
+                    User? user = snapshot.data;
+                    if (user == null) {
+                      return AuthorizationPage();
+                    } else {
+                      context.read<TaskBloc>().add(TasksListLoaded());
+                      return const TasksPage();
+                    }
+                  }
+                  return const CircularProgressIndicator();
+                },
+              );
             },
           ),
         );

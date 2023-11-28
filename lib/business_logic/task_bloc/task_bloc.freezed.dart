@@ -116,7 +116,7 @@ class _$TaskStateImpl extends _TaskState {
   const _$TaskStateImpl(
       {final List<TaskModel> tasks = const [],
       this.newTasksCounter = 0,
-      this.isLoading = false})
+      this.isLoading = true})
       : _tasks = tasks,
         super._();
 

@@ -7,5 +7,7 @@ class AuthentificationState with _$AuthentificationState {
   const factory AuthentificationState({
     @Default(true) bool obscurePassword,
     @Default(false) bool canAuthorize,
+    @Default(false) bool isAuthorized,
+    @Default('') String email,
   }) = _AuthentificationState;
 }

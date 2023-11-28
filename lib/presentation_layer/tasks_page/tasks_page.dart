@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_test_app/presentation_layer/profile_page/profile_page.dart';
 import 'package:todo_test_app/presentation_layer/settings_page/settings_page.dart';
 
 import 'package:todo_test_app/presentation_layer/tasks_page/widgets/create_task_widget.dart';
@@ -37,7 +38,10 @@ class _TasksPageState extends State<TasksPage> {
                 Icons.person_outlined,
                 color: AppColors.mainOrange,
               ),
-              onPressed: () {},
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProfilePage()),
+              ),
             ),
             IconButton(
               icon: const Icon(

@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$AuthentificationState {
   bool get obscurePassword => throw _privateConstructorUsedError;
   bool get canAuthorize => throw _privateConstructorUsedError;
+  bool get isAuthorized => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AuthentificationStateCopyWith<AuthentificationState> get copyWith =>
@@ -30,7 +32,11 @@ abstract class $AuthentificationStateCopyWith<$Res> {
           $Res Function(AuthentificationState) then) =
       _$AuthentificationStateCopyWithImpl<$Res, AuthentificationState>;
   @useResult
-  $Res call({bool obscurePassword, bool canAuthorize});
+  $Res call(
+      {bool obscurePassword,
+      bool canAuthorize,
+      bool isAuthorized,
+      String email});
 }
 
 /// @nodoc
@@ -49,6 +55,8 @@ class _$AuthentificationStateCopyWithImpl<$Res,
   $Res call({
     Object? obscurePassword = null,
     Object? canAuthorize = null,
+    Object? isAuthorized = null,
+    Object? email = null,
   }) {
     return _then(_value.copyWith(
       obscurePassword: null == obscurePassword
@@ -59,6 +67,14 @@ class _$AuthentificationStateCopyWithImpl<$Res,
           ? _value.canAuthorize
           : canAuthorize // ignore: cast_nullable_to_non_nullable
               as bool,
+      isAuthorized: null == isAuthorized
+          ? _value.isAuthorized
+          : isAuthorized // ignore: cast_nullable_to_non_nullable
+              as bool,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -72,7 +88,11 @@ abstract class _$$AuthentificationStateImplCopyWith<$Res>
       __$$AuthentificationStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool obscurePassword, bool canAuthorize});
+  $Res call(
+      {bool obscurePassword,
+      bool canAuthorize,
+      bool isAuthorized,
+      String email});
 }
 
 /// @nodoc
@@ -89,6 +109,8 @@ class __$$AuthentificationStateImplCopyWithImpl<$Res>
   $Res call({
     Object? obscurePassword = null,
     Object? canAuthorize = null,
+    Object? isAuthorized = null,
+    Object? email = null,
   }) {
     return _then(_$AuthentificationStateImpl(
       obscurePassword: null == obscurePassword
@@ -99,6 +121,14 @@ class __$$AuthentificationStateImplCopyWithImpl<$Res>
           ? _value.canAuthorize
           : canAuthorize // ignore: cast_nullable_to_non_nullable
               as bool,
+      isAuthorized: null == isAuthorized
+          ? _value.isAuthorized
+          : isAuthorized // ignore: cast_nullable_to_non_nullable
+              as bool,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -107,7 +137,10 @@ class __$$AuthentificationStateImplCopyWithImpl<$Res>
 
 class _$AuthentificationStateImpl extends _AuthentificationState {
   const _$AuthentificationStateImpl(
-      {this.obscurePassword = true, this.canAuthorize = false})
+      {this.obscurePassword = true,
+      this.canAuthorize = false,
+      this.isAuthorized = false,
+      this.email = ''})
       : super._();
 
   @override
@@ -116,10 +149,16 @@ class _$AuthentificationStateImpl extends _AuthentificationState {
   @override
   @JsonKey()
   final bool canAuthorize;
+  @override
+  @JsonKey()
+  final bool isAuthorized;
+  @override
+  @JsonKey()
+  final String email;
 
   @override
   String toString() {
-    return 'AuthentificationState(obscurePassword: $obscurePassword, canAuthorize: $canAuthorize)';
+    return 'AuthentificationState(obscurePassword: $obscurePassword, canAuthorize: $canAuthorize, isAuthorized: $isAuthorized, email: $email)';
   }
 
   @override
@@ -130,11 +169,15 @@ class _$AuthentificationStateImpl extends _AuthentificationState {
             (identical(other.obscurePassword, obscurePassword) ||
                 other.obscurePassword == obscurePassword) &&
             (identical(other.canAuthorize, canAuthorize) ||
-                other.canAuthorize == canAuthorize));
+                other.canAuthorize == canAuthorize) &&
+            (identical(other.isAuthorized, isAuthorized) ||
+                other.isAuthorized == isAuthorized) &&
+            (identical(other.email, email) || other.email == email));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, obscurePassword, canAuthorize);
+  int get hashCode => Object.hash(
+      runtimeType, obscurePassword, canAuthorize, isAuthorized, email);
 
   @JsonKey(ignore: true)
   @override
@@ -147,13 +190,19 @@ class _$AuthentificationStateImpl extends _AuthentificationState {
 abstract class _AuthentificationState extends AuthentificationState {
   const factory _AuthentificationState(
       {final bool obscurePassword,
-      final bool canAuthorize}) = _$AuthentificationStateImpl;
+      final bool canAuthorize,
+      final bool isAuthorized,
+      final String email}) = _$AuthentificationStateImpl;
   const _AuthentificationState._() : super._();
 
   @override
   bool get obscurePassword;
   @override
   bool get canAuthorize;
+  @override
+  bool get isAuthorized;
+  @override
+  String get email;
   @override
   @JsonKey(ignore: true)
   _$$AuthentificationStateImplCopyWith<_$AuthentificationStateImpl>

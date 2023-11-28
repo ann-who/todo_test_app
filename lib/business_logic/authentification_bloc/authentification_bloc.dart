@@ -12,6 +12,7 @@ class AuthentificationBloc
     on<CredentialsChecked>(_onCredentialsChecked);
     on<UserAuthorized>(_onUserAuthorized);
     on<PasswordShowed>(_onPasswordShowed);
+    on<UserSignedOut>(_onUserSignedOut);
   }
 
   void _onCredentialsChecked(
@@ -47,6 +48,8 @@ class AuthentificationBloc
         throw e;
       }
     }
+
+    emit(state.copyWith(email: event.email, isAuthorized: true));
   }
 
   void _onPasswordShowed(
@@ -54,5 +57,14 @@ class AuthentificationBloc
     Emitter<AuthentificationState> emit,
   ) {
     emit(state.copyWith(obscurePassword: !state.obscurePassword));
+  }
+
+  void _onUserSignedOut(
+    UserSignedOut event,
+    Emitter<AuthentificationState> emit,
+  ) {
+    FirebaseAuth.instance.signOut();
+
+    emit(state.copyWith(email: '', isAuthorized: false));
   }
 }

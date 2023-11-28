@@ -23,3 +23,7 @@ class TaskStatusChanged extends TaskEvent {
 
   TaskStatusChanged({required this.task});
 }
+
+class UserSignedOut extends TaskEvent {
+  UserSignedOut();
+}

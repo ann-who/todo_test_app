@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -31,6 +32,7 @@ class CreateTaskBody extends StatefulWidget {
 }
 
 class _CreateTaskBodyState extends State<CreateTaskBody> {
+  String userId = FirebaseAuth.instance.currentUser!.uid;
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   bool hasError = false;
@@ -96,6 +98,7 @@ class _CreateTaskBodyState extends State<CreateTaskBody> {
                               TaskCreated(
                                 task: TaskModel(
                                   id: const Uuid().v4(),
+                                  userId: userId,
                                   shortDescription: titleController.text.trim(),
                                   detailedDescription:
                                       descriptionController.text.trim(),

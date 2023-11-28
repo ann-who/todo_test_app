@@ -30,5 +30,16 @@
     "dark": "Dark",
     "language": "Language",
     "russian": "Russian",
-    "english": "English"
+    "english": "English",
+    "yourProfile": "Your profile:",
+    "hello": "Hello, {name}",
+    "@hello": {
+        "description": "Personalized message",
+        "placeholders": {
+            "name": {
+            "type": "String"
+            }
+        }
+    },
+    "logOut": "Log out"
 }
