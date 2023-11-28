@@ -104,13 +104,16 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   ) async {
     var updatedTasks = List<TaskModel>.from(state.tasks);
     var updatedTaskIndex = updatedTasks.indexOf(event.task);
+    var nextStatus = event.task.status == TaskStatus.fresh
+        ? TaskStatus.inProgress
+        : TaskStatus.done;
 
     var taskNeededUpdate = updatedTasks.elementAt(updatedTaskIndex).copyWith(
-        status: event.task.status == TaskStatus.fresh
-            ? TaskStatus.inProgress
-            : TaskStatus.done);
+          status: nextStatus,
+        );
 
     updatedTasks[updatedTaskIndex] = taskNeededUpdate;
+    await tasksRepository.updateTask(event.task.databaseId, nextStatus);
 
     var newTasksCounter = updatedTasks
         .where((task) => task.status == TaskStatus.fresh)
