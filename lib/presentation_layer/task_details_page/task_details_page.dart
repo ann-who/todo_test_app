@@ -32,7 +32,9 @@ class TaskDetailsPage extends StatelessWidget {
               if (task.status == TaskStatus.fresh)
                 IconButton(
                   onPressed: () {
-                    context.read<TaskBloc>().add(TaskDeleted(id: task.id));
+                    context.read<TaskBloc>().add(TaskDeleted(
+                          id: task.databaseId,
+                        ));
                     Navigator.of(context).pop();
                   },
                   icon: const Icon(Icons.delete_rounded),

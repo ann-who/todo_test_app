@@ -11,6 +11,7 @@ part 'task_model.g.dart';
 @freezed
 class TaskModel with _$TaskModel {
   const factory TaskModel({
+    @Default('') String databaseId,
     required String id,
     required String shortDescription,
     String? detailedDescription,

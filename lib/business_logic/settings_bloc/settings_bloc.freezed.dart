@@ -103,13 +103,14 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SettingsStateImpl extends _SettingsState {
-  const _$SettingsStateImpl(
-      {required this.currentTheme, required this.currentLanguage})
+  const _$SettingsStateImpl({this.currentTheme = '', this.currentLanguage = ''})
       : super._();
 
   @override
+  @JsonKey()
   final String currentTheme;
   @override
+  @JsonKey()
   final String currentLanguage;
 
   @override
@@ -140,8 +141,8 @@ class _$SettingsStateImpl extends _SettingsState {
 
 abstract class _SettingsState extends SettingsState {
   const factory _SettingsState(
-      {required final String currentTheme,
-      required final String currentLanguage}) = _$SettingsStateImpl;
+      {final String currentTheme,
+      final String currentLanguage}) = _$SettingsStateImpl;
   const _SettingsState._() : super._();
 
   @override

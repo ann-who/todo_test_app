@@ -33,7 +33,7 @@ class DismissTask extends StatelessWidget {
             context.read<TaskBloc>().add(TaskStatusChanged(task: task));
             canDelete = false;
           } else if (direction == DismissDirection.endToStart && canDelete) {
-            context.read<TaskBloc>().add(TaskDeleted(id: task.id));
+            context.read<TaskBloc>().add(TaskDeleted(id: task.databaseId));
           }
           return canDelete;
         },

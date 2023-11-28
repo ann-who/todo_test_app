@@ -3,9 +3,7 @@ part of 'task_bloc.dart';
 abstract class TaskEvent {}
 
 class TasksListLoaded extends TaskEvent {
-  final List<TaskModel> tasks;
-
-  TasksListLoaded({required this.tasks});
+  TasksListLoaded();
 }
 
 class TaskCreated extends TaskEvent {

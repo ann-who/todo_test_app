@@ -3,13 +3,16 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:todo_test_app/data_layer/models/task_model/task_model.dart';
 import 'package:todo_test_app/data_layer/models/task_status.dart';
+import 'package:todo_test_app/data_layer/repository/tasks_repository.dart';
 
 part 'task_bloc.freezed.dart';
 part 'task_event.dart';
 part 'task_state.dart';
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
-  TaskBloc() : super(const TaskState()) {
+  final TasksRepository tasksRepository;
+
+  TaskBloc({required this.tasksRepository}) : super(const TaskState()) {
     on<TasksListLoaded>(_onTasksListLoaded);
     on<TaskCreated>(_onTaskCreated);
     on<TaskDeleted>(_onTaskDeleted);
@@ -22,7 +25,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   ) async {
     emit(state.copyWith(isLoading: true));
 
-    var updatedTasks = <TaskModel>[];
+    var updatedTasks = await tasksRepository.loadExistingTasks();
     var newTasksCounter = updatedTasks
         .where((task) => task.status == TaskStatus.fresh)
         .toList()
@@ -42,7 +45,10 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     Emitter<TaskState> emit,
   ) async {
     var updatedTasks = List<TaskModel>.from(state.tasks);
-    updatedTasks.insert(0, event.task);
+    var createdTaskId = await tasksRepository.createTask(event.task);
+    var updatedTask = event.task.copyWith(databaseId: createdTaskId);
+
+    updatedTasks.insert(0, updatedTask);
 
     var newTasksCounter = updatedTasks
         .where((task) => task.status == TaskStatus.fresh)
@@ -62,7 +68,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     Emitter<TaskState> emit,
   ) async {
     var updatedTasks = List<TaskModel>.from(state.tasks);
-    int elementIndex = updatedTasks.indexWhere((task) => task.id == event.id);
+    int elementIndex =
+        updatedTasks.indexWhere((task) => task.databaseId == event.id);
 
     if (updatedTasks[elementIndex].status == TaskStatus.inProgress ||
         updatedTasks[elementIndex].status == TaskStatus.done) {
@@ -76,6 +83,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     }
 
     updatedTasks.removeAt(elementIndex);
+    await tasksRepository.deleteTask(event.id);
 
     var newTasksCounter = updatedTasks
         .where((task) => task.status == TaskStatus.fresh)

@@ -8,10 +8,7 @@ part 'settings_event.dart';
 part 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  SettingsBloc()
-      : super(
-          const SettingsState(currentTheme: '', currentLanguage: ''),
-        ) {
+  SettingsBloc() : super(const SettingsState()) {
     on<SettingsLoaded>(_onSettingsLoaded);
     on<ThemeSelected>(_onThemeSelected);
     on<LanguageSelected>(_onLanguageSelected);

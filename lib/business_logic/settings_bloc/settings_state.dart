@@ -5,7 +5,7 @@ class SettingsState with _$SettingsState {
   const SettingsState._();
 
   const factory SettingsState({
-    required String currentTheme,
-    required String currentLanguage,
+    @Default('') String currentTheme,
+    @Default('') String currentLanguage,
   }) = _SettingsState;
 }

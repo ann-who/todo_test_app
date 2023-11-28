@@ -17,7 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$TaskState {
   List<TaskModel> get tasks => throw _privateConstructorUsedError;
-  TaskModel? get currentTask => throw _privateConstructorUsedError;
   int get newTasksCounter => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
 
@@ -31,13 +30,7 @@ abstract class $TaskStateCopyWith<$Res> {
   factory $TaskStateCopyWith(TaskState value, $Res Function(TaskState) then) =
       _$TaskStateCopyWithImpl<$Res, TaskState>;
   @useResult
-  $Res call(
-      {List<TaskModel> tasks,
-      TaskModel? currentTask,
-      int newTasksCounter,
-      bool isLoading});
-
-  $TaskModelCopyWith<$Res>? get currentTask;
+  $Res call({List<TaskModel> tasks, int newTasksCounter, bool isLoading});
 }
 
 /// @nodoc
@@ -54,7 +47,6 @@ class _$TaskStateCopyWithImpl<$Res, $Val extends TaskState>
   @override
   $Res call({
     Object? tasks = null,
-    Object? currentTask = freezed,
     Object? newTasksCounter = null,
     Object? isLoading = null,
   }) {
@@ -63,10 +55,6 @@ class _$TaskStateCopyWithImpl<$Res, $Val extends TaskState>
           ? _value.tasks
           : tasks // ignore: cast_nullable_to_non_nullable
               as List<TaskModel>,
-      currentTask: freezed == currentTask
-          ? _value.currentTask
-          : currentTask // ignore: cast_nullable_to_non_nullable
-              as TaskModel?,
       newTasksCounter: null == newTasksCounter
           ? _value.newTasksCounter
           : newTasksCounter // ignore: cast_nullable_to_non_nullable
@@ -76,18 +64,6 @@ class _$TaskStateCopyWithImpl<$Res, $Val extends TaskState>
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $TaskModelCopyWith<$Res>? get currentTask {
-    if (_value.currentTask == null) {
-      return null;
-    }
-
-    return $TaskModelCopyWith<$Res>(_value.currentTask!, (value) {
-      return _then(_value.copyWith(currentTask: value) as $Val);
-    });
   }
 }
 
@@ -99,14 +75,7 @@ abstract class _$$TaskStateImplCopyWith<$Res>
       __$$TaskStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {List<TaskModel> tasks,
-      TaskModel? currentTask,
-      int newTasksCounter,
-      bool isLoading});
-
-  @override
-  $TaskModelCopyWith<$Res>? get currentTask;
+  $Res call({List<TaskModel> tasks, int newTasksCounter, bool isLoading});
 }
 
 /// @nodoc
@@ -121,7 +90,6 @@ class __$$TaskStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? tasks = null,
-    Object? currentTask = freezed,
     Object? newTasksCounter = null,
     Object? isLoading = null,
   }) {
@@ -130,10 +98,6 @@ class __$$TaskStateImplCopyWithImpl<$Res>
           ? _value._tasks
           : tasks // ignore: cast_nullable_to_non_nullable
               as List<TaskModel>,
-      currentTask: freezed == currentTask
-          ? _value.currentTask
-          : currentTask // ignore: cast_nullable_to_non_nullable
-              as TaskModel?,
       newTasksCounter: null == newTasksCounter
           ? _value.newTasksCounter
           : newTasksCounter // ignore: cast_nullable_to_non_nullable
@@ -151,7 +115,6 @@ class __$$TaskStateImplCopyWithImpl<$Res>
 class _$TaskStateImpl extends _TaskState {
   const _$TaskStateImpl(
       {final List<TaskModel> tasks = const [],
-      this.currentTask,
       this.newTasksCounter = 0,
       this.isLoading = false})
       : _tasks = tasks,
@@ -167,8 +130,6 @@ class _$TaskStateImpl extends _TaskState {
   }
 
   @override
-  final TaskModel? currentTask;
-  @override
   @JsonKey()
   final int newTasksCounter;
   @override
@@ -177,7 +138,7 @@ class _$TaskStateImpl extends _TaskState {
 
   @override
   String toString() {
-    return 'TaskState(tasks: $tasks, currentTask: $currentTask, newTasksCounter: $newTasksCounter, isLoading: $isLoading)';
+    return 'TaskState(tasks: $tasks, newTasksCounter: $newTasksCounter, isLoading: $isLoading)';
   }
 
   @override
@@ -186,8 +147,6 @@ class _$TaskStateImpl extends _TaskState {
         (other.runtimeType == runtimeType &&
             other is _$TaskStateImpl &&
             const DeepCollectionEquality().equals(other._tasks, _tasks) &&
-            (identical(other.currentTask, currentTask) ||
-                other.currentTask == currentTask) &&
             (identical(other.newTasksCounter, newTasksCounter) ||
                 other.newTasksCounter == newTasksCounter) &&
             (identical(other.isLoading, isLoading) ||
@@ -195,12 +154,8 @@ class _$TaskStateImpl extends _TaskState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_tasks),
-      currentTask,
-      newTasksCounter,
-      isLoading);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_tasks), newTasksCounter, isLoading);
 
   @JsonKey(ignore: true)
   @override
@@ -212,15 +167,12 @@ class _$TaskStateImpl extends _TaskState {
 abstract class _TaskState extends TaskState {
   const factory _TaskState(
       {final List<TaskModel> tasks,
-      final TaskModel? currentTask,
       final int newTasksCounter,
       final bool isLoading}) = _$TaskStateImpl;
   const _TaskState._() : super._();
 
   @override
   List<TaskModel> get tasks;
-  @override
-  TaskModel? get currentTask;
   @override
   int get newTasksCounter;
   @override
