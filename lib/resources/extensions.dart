@@ -1,15 +1,11 @@
 import 'package:intl/intl.dart';
 
 extension DateStringExtensions on DateTime {
-  DateTime parse() {
-    return DateTime.parse(toString());
-  }
-
-  String parseDayMonthYear() {
+  String formattedDate() {
     return DateFormat('dd.MM.yyyy').format(this);
   }
 
-  String parseTime() {
+  String formattedTime() {
     return DateFormat('HH:mm').format(this);
   }
 }

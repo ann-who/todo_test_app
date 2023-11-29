@@ -1,14 +1,17 @@
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:todo_test_app/data_layer/repository/settings_repository.dart';
 
 part 'settings_bloc.freezed.dart';
 part 'settings_event.dart';
 part 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  SettingsBloc() : super(const SettingsState()) {
+  final SettingsRepository settingsRepository;
+
+  SettingsBloc({required this.settingsRepository})
+      : super(const SettingsState()) {
     on<SettingsLoaded>(_onSettingsLoaded);
     on<ThemeSelected>(_onThemeSelected);
     on<LanguageSelected>(_onLanguageSelected);
@@ -18,12 +21,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsLoaded event,
     Emitter<SettingsState> emit,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
+    var settings = await settingsRepository.loadSettings();
 
-    var currentTheme = prefs.getString('selectedTheme') ??
-        SchedulerBinding.instance.platformDispatcher.platformBrightness.name;
-
-    var currentLanguage = prefs.getString('selectedLanguage') ?? 'russian';
+    var currentTheme = settings['theme']!;
+    var currentLanguage = settings['language']!;
 
     emit(
       state.copyWith(
@@ -37,8 +38,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     ThemeSelected event,
     Emitter<SettingsState> emit,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('selectedTheme', event.theme);
+    await settingsRepository.updateSettings(theme: event.theme);
 
     emit(state.copyWith(currentTheme: event.theme));
   }
@@ -47,11 +47,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     LanguageSelected event,
     Emitter<SettingsState> emit,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('selectedLanguage', event.language);
+    await settingsRepository.updateSettings(language: event.language);
 
-    emit(
-      state.copyWith(currentLanguage: event.language),
-    );
+    emit(state.copyWith(currentLanguage: event.language));
   }
 }

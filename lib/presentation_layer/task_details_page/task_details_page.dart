@@ -63,12 +63,12 @@ class TaskDetailsPage extends StatelessWidget {
                     StatusLabel(task: task),
                     const Spacer(),
                     Text(
-                      task.creationDate.parseTime(),
+                      task.creationDate.formattedTime(),
                       style: textTheme.labelSmall,
                     ),
                     const SizedBox(width: 8.0),
                     Text(
-                      task.creationDate.parseDayMonthYear(),
+                      task.creationDate.formattedDate(),
                       style: textTheme.labelSmall,
                     ),
                   ],

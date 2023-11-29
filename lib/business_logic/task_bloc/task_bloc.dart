@@ -27,6 +27,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     emit(state.copyWith(isLoading: true));
 
     var updatedTasks = await tasksRepository.loadExistingTasks();
+
     var newTasksCounter = updatedTasks
         .where((task) => task.status == TaskStatus.fresh)
         .toList()

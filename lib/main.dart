@@ -5,12 +5,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_test_app/data_layer/data_source/pref_settings_data_store.dart';
+import 'package:todo_test_app/data_layer/repository/settings_repository_implementation.dart';
 import 'firebase_options.dart';
 
 import 'package:todo_test_app/business_logic/authentification_bloc/authentification.dart';
 import 'package:todo_test_app/business_logic/settings_bloc/settings.dart';
 import 'package:todo_test_app/business_logic/task_bloc/task.dart';
-import 'package:todo_test_app/data_layer/data_source/tasks_data_source.dart';
+import 'package:todo_test_app/data_layer/data_source/firebase_tasks_data_source.dart';
 import 'package:todo_test_app/data_layer/repository/tasks_repository_implementation.dart';
 import 'package:todo_test_app/presentation_layer/authorization_page/authorization_page.dart';
 import 'package:todo_test_app/presentation_layer/tasks_page/tasks_page.dart';
@@ -32,12 +34,16 @@ void main() async {
         BlocProvider(
           create: (context) => TaskBloc(
             tasksRepository: TasksRepositoryImplementation(
-              tasksDataSource: TasksDataSource(),
+              tasksDataSource: FirebaseTasksDataSource(),
             ),
           ),
         ),
         BlocProvider(
-          create: (context) => SettingsBloc()..add(SettingsLoaded()),
+          create: (context) => SettingsBloc(
+            settingsRepository: SettingsRepositoryImplementation(
+              settingsDataSource: PrefsSettingsDataSource(),
+            ),
+          )..add(SettingsLoaded()),
         ),
       ],
       child: const MyApp(),
