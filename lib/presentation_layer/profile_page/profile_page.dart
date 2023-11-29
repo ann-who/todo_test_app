@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -12,6 +13,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context)!;
+    var email = FirebaseAuth.instance.currentUser!.email!;
 
     return Scaffold(
       appBar: AppBar(
@@ -25,12 +27,7 @@ class ProfilePage extends StatelessWidget {
               Icons.person,
               size: MediaQuery.of(context).size.width / 2,
             ),
-            BlocBuilder<AuthentificationBloc, AuthentificationState>(
-              buildWhen: (previous, current) => previous.email != current.email,
-              builder: (context, state) {
-                return Text(locale.hello(state.email));
-              },
-            ),
+            Text(locale.hello(email)),
           ],
         ),
       ),
