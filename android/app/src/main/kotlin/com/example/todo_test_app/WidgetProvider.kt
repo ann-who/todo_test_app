@@ -19,8 +19,9 @@ class AppWidgetProvider : HomeWidgetProvider() {
         appWidgetIds.forEach { widgetId ->
             val views = RemoteViews(context.packageName, R.layout.widget_layout).apply {
                 val counter = widgetData.getInt("task_count", 0)
-                var counterText = "New tasks: $counter"
-
+                val text = widgetData.getString("message", "New tasks")
+                var counterText = "$text $counter"
+                
                 setTextViewText(R.id.task_count, counterText)
             }
             appWidgetManager.updateAppWidget(widgetId, views)

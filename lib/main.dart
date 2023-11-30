@@ -71,7 +71,10 @@ class MyApp extends StatelessWidget {
 
         updateTasksCountCallback();
       },
-      child: BlocBuilder<SettingsBloc, SettingsState>(
+      child: BlocConsumer<SettingsBloc, SettingsState>(
+        listenWhen: (previous, current) =>
+            previous.currentLanguage != current.currentLanguage,
+        listener: (context, state) async => updateTasksCountCallback(),
         builder: (context, state) {
           return MaterialApp(
             locale: Locale(state.currentLanguage == 'russian' ? 'ru' : 'en'),
@@ -110,8 +113,11 @@ class MyApp extends StatelessWidget {
 
 updateTasksCountCallback([Uri? uri]) async {
   final prefs = await SharedPreferences.getInstance();
+  var language = prefs.getString('selectedLanguage') ?? 'russian';
+  var message = language == 'russian' ? 'Новых задач: ' : 'New tasks: ';
   var counter = prefs.getInt('taskCount') ?? 0;
 
+  await HomeWidget.saveWidgetData<String>('message', message);
   await HomeWidget.saveWidgetData<int>('task_count', counter);
   await HomeWidget.updateWidget(
     name: 'AppWidgetProvider',
