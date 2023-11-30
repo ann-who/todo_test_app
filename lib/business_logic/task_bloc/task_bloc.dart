@@ -134,6 +134,12 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     UserSignedOut event,
     Emitter<TaskState> emit,
   ) {
-    emit(state.copyWith(tasks: [], newTasksCounter: 0));
+    emit(
+      state.copyWith(
+        tasks: [],
+        newTasksCounter: 0,
+        isLoading: true,
+      ),
+    );
   }
 }

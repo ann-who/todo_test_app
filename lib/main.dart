@@ -5,7 +5,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_test_app/data_layer/data_source/firebase_authentofocation_data_source.dart';
 import 'package:todo_test_app/data_layer/data_source/pref_settings_data_store.dart';
+import 'package:todo_test_app/data_layer/repository/authentification_repository_implementation.dart';
 import 'package:todo_test_app/data_layer/repository/settings_repository_implementation.dart';
 import 'firebase_options.dart';
 
@@ -29,7 +31,11 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => AuthentificationBloc(),
+          create: (context) => AuthentificationBloc(
+            authRepository: AuthentificationRepositoryImplementation(
+              authDataSource: FirebaseAuthentificationDataSource(),
+            ),
+          ),
         ),
         BlocProvider(
           create: (context) => TaskBloc(

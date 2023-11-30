@@ -1,6 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'package:todo_test_app/data_layer/repository/authentification_repository.dart';
 
 part 'authentification_bloc.freezed.dart';
 part 'authentification_event.dart';
@@ -8,7 +9,10 @@ part 'authentification_state.dart';
 
 class AuthentificationBloc
     extends Bloc<AuthentificationEvent, AuthentificationState> {
-  AuthentificationBloc() : super(const AuthentificationState()) {
+  final AuthentificationRepository authRepository;
+
+  AuthentificationBloc({required this.authRepository})
+      : super(const AuthentificationState()) {
     on<CredentialsChecked>(_onCredentialsChecked);
     on<UserAuthorized>(_onUserAuthorized);
     on<PasswordShowed>(_onPasswordShowed);
@@ -33,22 +37,7 @@ class AuthentificationBloc
     UserAuthorized event,
     Emitter<AuthentificationState> emit,
   ) async {
-    try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: event.email,
-        password: event.password,
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'email-already-in-use') {
-        FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: event.email,
-          password: event.password,
-        );
-      } else {
-        throw e;
-      }
-    }
-
+    await authRepository.createOrSignIn(event.email, event.password);
     emit(state.copyWith(email: event.email, isAuthorized: true));
   }
 
@@ -62,9 +51,8 @@ class AuthentificationBloc
   void _onUserSignedOut(
     UserSignedOut event,
     Emitter<AuthentificationState> emit,
-  ) {
-    FirebaseAuth.instance.signOut();
-
+  ) async {
+    await authRepository.signOut();
     emit(state.copyWith(email: '', isAuthorized: false));
   }
 }
