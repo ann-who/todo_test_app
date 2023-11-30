@@ -9,5 +9,7 @@ class AuthentificationState with _$AuthentificationState {
     @Default(false) bool canAuthorize,
     @Default(false) bool isAuthorized,
     @Default('') String email,
+    @Default(AuthStateStatus.needCheck) AuthStateStatus status,
+    Object? error,
   }) = _AuthentificationState;
 }

@@ -36,6 +36,10 @@ class AppTheme {
         },
       ),
     ),
+    dialogTheme: DialogTheme(
+      elevation: 8.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32.0)),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         padding: const MaterialStatePropertyAll<EdgeInsetsGeometry>(
@@ -73,6 +77,10 @@ class AppTheme {
         borderSide: const BorderSide(color: Colors.grey),
       ),
       errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12.0),
+        borderSide: const BorderSide(color: Colors.red),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12.0),
         borderSide: const BorderSide(color: Colors.red),
       ),
@@ -172,6 +180,10 @@ class AppTheme {
         },
       ),
     ),
+    dialogTheme: DialogTheme(
+      elevation: 8.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32.0)),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         padding: const MaterialStatePropertyAll<EdgeInsetsGeometry>(
@@ -215,6 +227,10 @@ class AppTheme {
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12.0),
         borderSide: const BorderSide(color: AppColors.blue),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12.0),
+        borderSide: const BorderSide(color: Colors.red),
       ),
       suffixIconColor: MaterialStateColor.resolveWith(
         (Set<MaterialState> states) {

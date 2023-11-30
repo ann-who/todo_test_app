@@ -1,7 +1,7 @@
 {
     "appName": "TODO",
     "login": "E-mail",
-    "password": "Пароль",
+    "password": "Пароль (минимум 6 символов)",
     "goNext": "Продолжить",
     "newTasks": "У вас {count, plural, =1{{count} новая задача} few{{count} новые задачи} other{{count} новых задач}}",
     "@newTasks": {
@@ -41,5 +41,8 @@
             }
         }
     },
-    "logOut": "Выйти"
+    "logOut": "Выйти",
+    "loadingError": "Произошла ошибка при загрузке задач",
+    "tryAgain": "Попробовать ещё раз",
+    "loginError": "Проверьте e-mail и/или пароль"
 }

@@ -20,6 +20,8 @@ mixin _$AuthentificationState {
   bool get canAuthorize => throw _privateConstructorUsedError;
   bool get isAuthorized => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
+  AuthStateStatus get status => throw _privateConstructorUsedError;
+  Object? get error => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AuthentificationStateCopyWith<AuthentificationState> get copyWith =>
@@ -36,7 +38,9 @@ abstract class $AuthentificationStateCopyWith<$Res> {
       {bool obscurePassword,
       bool canAuthorize,
       bool isAuthorized,
-      String email});
+      String email,
+      AuthStateStatus status,
+      Object? error});
 }
 
 /// @nodoc
@@ -57,6 +61,8 @@ class _$AuthentificationStateCopyWithImpl<$Res,
     Object? canAuthorize = null,
     Object? isAuthorized = null,
     Object? email = null,
+    Object? status = null,
+    Object? error = freezed,
   }) {
     return _then(_value.copyWith(
       obscurePassword: null == obscurePassword
@@ -75,6 +81,11 @@ class _$AuthentificationStateCopyWithImpl<$Res,
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as AuthStateStatus,
+      error: freezed == error ? _value.error : error,
     ) as $Val);
   }
 }
@@ -92,7 +103,9 @@ abstract class _$$AuthentificationStateImplCopyWith<$Res>
       {bool obscurePassword,
       bool canAuthorize,
       bool isAuthorized,
-      String email});
+      String email,
+      AuthStateStatus status,
+      Object? error});
 }
 
 /// @nodoc
@@ -111,6 +124,8 @@ class __$$AuthentificationStateImplCopyWithImpl<$Res>
     Object? canAuthorize = null,
     Object? isAuthorized = null,
     Object? email = null,
+    Object? status = null,
+    Object? error = freezed,
   }) {
     return _then(_$AuthentificationStateImpl(
       obscurePassword: null == obscurePassword
@@ -129,6 +144,11 @@ class __$$AuthentificationStateImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as AuthStateStatus,
+      error: freezed == error ? _value.error : error,
     ));
   }
 }
@@ -140,7 +160,9 @@ class _$AuthentificationStateImpl extends _AuthentificationState {
       {this.obscurePassword = true,
       this.canAuthorize = false,
       this.isAuthorized = false,
-      this.email = ''})
+      this.email = '',
+      this.status = AuthStateStatus.needCheck,
+      this.error})
       : super._();
 
   @override
@@ -155,10 +177,15 @@ class _$AuthentificationStateImpl extends _AuthentificationState {
   @override
   @JsonKey()
   final String email;
+  @override
+  @JsonKey()
+  final AuthStateStatus status;
+  @override
+  final Object? error;
 
   @override
   String toString() {
-    return 'AuthentificationState(obscurePassword: $obscurePassword, canAuthorize: $canAuthorize, isAuthorized: $isAuthorized, email: $email)';
+    return 'AuthentificationState(obscurePassword: $obscurePassword, canAuthorize: $canAuthorize, isAuthorized: $isAuthorized, email: $email, status: $status, error: $error)';
   }
 
   @override
@@ -172,12 +199,14 @@ class _$AuthentificationStateImpl extends _AuthentificationState {
                 other.canAuthorize == canAuthorize) &&
             (identical(other.isAuthorized, isAuthorized) ||
                 other.isAuthorized == isAuthorized) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.status, status) || other.status == status) &&
+            const DeepCollectionEquality().equals(other.error, error));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, obscurePassword, canAuthorize, isAuthorized, email);
+  int get hashCode => Object.hash(runtimeType, obscurePassword, canAuthorize,
+      isAuthorized, email, status, const DeepCollectionEquality().hash(error));
 
   @JsonKey(ignore: true)
   @override
@@ -192,7 +221,9 @@ abstract class _AuthentificationState extends AuthentificationState {
       {final bool obscurePassword,
       final bool canAuthorize,
       final bool isAuthorized,
-      final String email}) = _$AuthentificationStateImpl;
+      final String email,
+      final AuthStateStatus status,
+      final Object? error}) = _$AuthentificationStateImpl;
   const _AuthentificationState._() : super._();
 
   @override
@@ -203,6 +234,10 @@ abstract class _AuthentificationState extends AuthentificationState {
   bool get isAuthorized;
   @override
   String get email;
+  @override
+  AuthStateStatus get status;
+  @override
+  Object? get error;
   @override
   @JsonKey(ignore: true)
   _$$AuthentificationStateImplCopyWith<_$AuthentificationStateImpl>

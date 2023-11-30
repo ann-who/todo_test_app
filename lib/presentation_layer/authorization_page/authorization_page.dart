@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:todo_test_app/business_logic/authentification_bloc/authentification.dart';
+import 'package:todo_test_app/data_layer/models/auth_state_status.dart';
 import 'package:todo_test_app/presentation_layer/tasks_page/tasks_page.dart';
 
 class AuthorizationPage extends StatelessWidget {
@@ -21,33 +22,45 @@ class AuthorizationPage extends StatelessWidget {
       onWillPop: () async => false,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/logo.png',
-                  width: MediaQuery.of(context).size.width / 2,
+        body: BlocConsumer<AuthentificationBloc, AuthentificationState>(
+          listenWhen: (previous, current) => previous.status != current.status,
+          listener: (context, state) {
+            if (state.canAuthorize &&
+                state.status == AuthStateStatus.authorized) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const TasksPage(),
                 ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  decoration: InputDecoration(
-                    hintText: locale.login,
-                    hintStyle: textTheme.bodyMedium,
-                  ),
-                  controller: emailController,
-                  onChanged: (value) => authBloc.add(
-                    CredentialsChecked(
-                      email: emailController.text,
-                      password: passwordController.text,
+              );
+            }
+          },
+          builder: (context, state) {
+            return SafeArea(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Image.asset(
+                      'assets/logo.png',
+                      width: MediaQuery.of(context).size.width / 2,
                     ),
-                  ),
-                ),
-                const SizedBox(height: 16.0),
-                BlocBuilder<AuthentificationBloc, AuthentificationState>(
-                  builder: (context, state) {
-                    return TextFormField(
+                    const SizedBox(height: 16.0),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        hintText: locale.login,
+                        hintStyle: textTheme.bodyMedium,
+                      ),
+                      controller: emailController,
+                      onChanged: (value) => authBloc.add(
+                        CredentialsChecked(
+                          email: emailController.text,
+                          password: passwordController.text,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16.0),
+                    TextFormField(
                       obscureText: state.obscurePassword,
                       decoration: InputDecoration(
                         hintText: locale.password,
@@ -67,12 +80,19 @@ class AuthorizationPage extends StatelessWidget {
                           password: passwordController.text,
                         ),
                       ),
-                    );
-                  },
+                    ),
+                    if (state.status == AuthStateStatus.error)
+                      const SizedBox(height: 16.0),
+                    if (state.status == AuthStateStatus.error)
+                      Text(
+                        locale.loginError,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
         bottomNavigationBar: Container(
           width: double.maxFinite,
@@ -90,19 +110,10 @@ class AuthorizationPage extends StatelessWidget {
                       : null,
                 ),
                 onPressed: state.canAuthorize
-                    ? () {
-                        authBloc.add(UserAuthorized(
+                    ? () => authBloc.add(UserAuthorized(
                           email: emailController.text,
                           password: passwordController.text,
-                        ));
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const TasksPage(),
-                          ),
-                        );
-                      }
+                        ))
                     : null,
                 child: Text(locale.goNext),
               );

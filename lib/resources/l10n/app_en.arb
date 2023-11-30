@@ -1,7 +1,7 @@
 {
     "appName": "TODO",
     "login": "E-mail",
-    "password": "Password",
+    "password": "Password (min 6 symblos)",
     "goNext": "Continue",
     "newTasks": "You have {count, plural, =1{{count} new task} other{{count} new tasks}}",
     "@newTasks": {
@@ -41,5 +41,8 @@
             }
         }
     },
-    "logOut": "Log out"
+    "logOut": "Log out",
+    "loadingError": "Got error while loading tasks",
+    "tryAgain": "Try again",
+    "loginError": "Check e-mail and/or password"
 }

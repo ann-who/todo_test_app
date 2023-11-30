@@ -8,5 +8,6 @@ class TaskState with _$TaskState {
     @Default([]) List<TaskModel> tasks,
     @Default(0) int newTasksCounter,
     @Default(true) bool isLoading,
+    Object? error,
   }) = _TaskState;
 }

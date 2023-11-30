@@ -19,6 +19,7 @@ mixin _$TaskState {
   List<TaskModel> get tasks => throw _privateConstructorUsedError;
   int get newTasksCounter => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
+  Object? get error => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TaskStateCopyWith<TaskState> get copyWith =>
@@ -30,7 +31,11 @@ abstract class $TaskStateCopyWith<$Res> {
   factory $TaskStateCopyWith(TaskState value, $Res Function(TaskState) then) =
       _$TaskStateCopyWithImpl<$Res, TaskState>;
   @useResult
-  $Res call({List<TaskModel> tasks, int newTasksCounter, bool isLoading});
+  $Res call(
+      {List<TaskModel> tasks,
+      int newTasksCounter,
+      bool isLoading,
+      Object? error});
 }
 
 /// @nodoc
@@ -49,6 +54,7 @@ class _$TaskStateCopyWithImpl<$Res, $Val extends TaskState>
     Object? tasks = null,
     Object? newTasksCounter = null,
     Object? isLoading = null,
+    Object? error = freezed,
   }) {
     return _then(_value.copyWith(
       tasks: null == tasks
@@ -63,6 +69,7 @@ class _$TaskStateCopyWithImpl<$Res, $Val extends TaskState>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      error: freezed == error ? _value.error : error,
     ) as $Val);
   }
 }
@@ -75,7 +82,11 @@ abstract class _$$TaskStateImplCopyWith<$Res>
       __$$TaskStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<TaskModel> tasks, int newTasksCounter, bool isLoading});
+  $Res call(
+      {List<TaskModel> tasks,
+      int newTasksCounter,
+      bool isLoading,
+      Object? error});
 }
 
 /// @nodoc
@@ -92,6 +103,7 @@ class __$$TaskStateImplCopyWithImpl<$Res>
     Object? tasks = null,
     Object? newTasksCounter = null,
     Object? isLoading = null,
+    Object? error = freezed,
   }) {
     return _then(_$TaskStateImpl(
       tasks: null == tasks
@@ -106,6 +118,7 @@ class __$$TaskStateImplCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      error: freezed == error ? _value.error : error,
     ));
   }
 }
@@ -116,7 +129,8 @@ class _$TaskStateImpl extends _TaskState {
   const _$TaskStateImpl(
       {final List<TaskModel> tasks = const [],
       this.newTasksCounter = 0,
-      this.isLoading = true})
+      this.isLoading = true,
+      this.error})
       : _tasks = tasks,
         super._();
 
@@ -135,10 +149,12 @@ class _$TaskStateImpl extends _TaskState {
   @override
   @JsonKey()
   final bool isLoading;
+  @override
+  final Object? error;
 
   @override
   String toString() {
-    return 'TaskState(tasks: $tasks, newTasksCounter: $newTasksCounter, isLoading: $isLoading)';
+    return 'TaskState(tasks: $tasks, newTasksCounter: $newTasksCounter, isLoading: $isLoading, error: $error)';
   }
 
   @override
@@ -150,12 +166,17 @@ class _$TaskStateImpl extends _TaskState {
             (identical(other.newTasksCounter, newTasksCounter) ||
                 other.newTasksCounter == newTasksCounter) &&
             (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading));
+                other.isLoading == isLoading) &&
+            const DeepCollectionEquality().equals(other.error, error));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_tasks), newTasksCounter, isLoading);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_tasks),
+      newTasksCounter,
+      isLoading,
+      const DeepCollectionEquality().hash(error));
 
   @JsonKey(ignore: true)
   @override
@@ -168,7 +189,8 @@ abstract class _TaskState extends TaskState {
   const factory _TaskState(
       {final List<TaskModel> tasks,
       final int newTasksCounter,
-      final bool isLoading}) = _$TaskStateImpl;
+      final bool isLoading,
+      final Object? error}) = _$TaskStateImpl;
   const _TaskState._() : super._();
 
   @override
@@ -177,6 +199,8 @@ abstract class _TaskState extends TaskState {
   int get newTasksCounter;
   @override
   bool get isLoading;
+  @override
+  Object? get error;
   @override
   @JsonKey(ignore: true)
   _$$TaskStateImplCopyWith<_$TaskStateImpl> get copyWith =>

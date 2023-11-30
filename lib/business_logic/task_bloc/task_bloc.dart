@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:todo_test_app/data_layer/models/task_model/task_model.dart';
 import 'package:todo_test_app/data_layer/models/task_status.dart';
 import 'package:todo_test_app/data_layer/repository/tasks_repository.dart';
+import 'package:todo_test_app/resources/exceptions/task_exception.dart';
 
 part 'task_bloc.freezed.dart';
 part 'task_event.dart';
@@ -26,20 +27,25 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   ) async {
     emit(state.copyWith(isLoading: true));
 
-    var updatedTasks = await tasksRepository.loadExistingTasks();
+    try {
+      var updatedTasks = await tasksRepository.loadExistingTasks();
 
-    var newTasksCounter = updatedTasks
-        .where((task) => task.status == TaskStatus.fresh)
-        .toList()
-        .length;
+      var newTasksCounter = updatedTasks
+          .where((task) => task.status == TaskStatus.fresh)
+          .toList()
+          .length;
 
-    emit(
-      state.copyWith(
-        isLoading: false,
-        tasks: updatedTasks,
-        newTasksCounter: newTasksCounter,
-      ),
-    );
+      emit(
+        state.copyWith(
+          isLoading: false,
+          tasks: updatedTasks,
+          newTasksCounter: newTasksCounter,
+          error: null,
+        ),
+      );
+    } catch (e) {
+      emit(state.copyWith(error: e));
+    }
   }
 
   void _onTaskCreated(
@@ -47,22 +53,28 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     Emitter<TaskState> emit,
   ) async {
     var updatedTasks = List<TaskModel>.from(state.tasks);
-    var createdTaskId = await tasksRepository.createTask(event.task);
-    var updatedTask = event.task.copyWith(databaseId: createdTaskId);
 
-    updatedTasks.insert(0, updatedTask);
+    try {
+      var createdTaskId = await tasksRepository.createTask(event.task);
+      var updatedTask = event.task.copyWith(databaseId: createdTaskId);
 
-    var newTasksCounter = updatedTasks
-        .where((task) => task.status == TaskStatus.fresh)
-        .toList()
-        .length;
+      updatedTasks.insert(0, updatedTask);
 
-    emit(
-      state.copyWith(
-        tasks: updatedTasks,
-        newTasksCounter: newTasksCounter,
-      ),
-    );
+      var newTasksCounter = updatedTasks
+          .where((task) => task.status == TaskStatus.fresh)
+          .toList()
+          .length;
+
+      emit(
+        state.copyWith(
+          tasks: updatedTasks,
+          newTasksCounter: newTasksCounter,
+          error: null,
+        ),
+      );
+    } catch (e) {
+      emit(state.copyWith(error: e));
+    }
   }
 
   void _onTaskDeleted(
@@ -80,24 +92,30 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     }
 
     if (elementIndex == -1) {
-      // TODO
-      throw Exception();
+      emit(state.copyWith(error: const TaskException('Delete error')));
+      throw const TaskException('Delete error');
     }
 
     updatedTasks.removeAt(elementIndex);
-    await tasksRepository.deleteTask(event.id);
 
-    var newTasksCounter = updatedTasks
-        .where((task) => task.status == TaskStatus.fresh)
-        .toList()
-        .length;
+    try {
+      await tasksRepository.deleteTask(event.id);
 
-    emit(
-      state.copyWith(
-        tasks: updatedTasks,
-        newTasksCounter: newTasksCounter,
-      ),
-    );
+      var newTasksCounter = updatedTasks
+          .where((task) => task.status == TaskStatus.fresh)
+          .toList()
+          .length;
+
+      emit(
+        state.copyWith(
+          tasks: updatedTasks,
+          newTasksCounter: newTasksCounter,
+          error: null,
+        ),
+      );
+    } catch (e) {
+      emit(state.copyWith(error: e));
+    }
   }
 
   void _onTaskStatusChanged(
@@ -115,19 +133,24 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         );
 
     updatedTasks[updatedTaskIndex] = taskNeededUpdate;
-    await tasksRepository.updateTask(event.task.databaseId, nextStatus);
+    try {
+      await tasksRepository.updateTask(event.task.databaseId, nextStatus);
 
-    var newTasksCounter = updatedTasks
-        .where((task) => task.status == TaskStatus.fresh)
-        .toList()
-        .length;
+      var newTasksCounter = updatedTasks
+          .where((task) => task.status == TaskStatus.fresh)
+          .toList()
+          .length;
 
-    emit(
-      state.copyWith(
-        tasks: updatedTasks,
-        newTasksCounter: newTasksCounter,
-      ),
-    );
+      emit(
+        state.copyWith(
+          tasks: updatedTasks,
+          newTasksCounter: newTasksCounter,
+          error: null,
+        ),
+      );
+    } catch (e) {
+      emit(state.copyWith(error: e));
+    }
   }
 
   void _onUserSignedOut(
@@ -139,6 +162,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         tasks: [],
         newTasksCounter: 0,
         isLoading: true,
+        error: null,
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:todo_test_app/business_logic/task_bloc/task.dart';
+import 'package:todo_test_app/presentation_layer/common_widgets/error_widget.dart';
 import 'package:todo_test_app/presentation_layer/tasks_page/widgets/dismiss_task_widget.dart';
 import 'package:todo_test_app/presentation_layer/tasks_page/widgets/task_widget.dart';
 
@@ -19,7 +20,13 @@ class TasksListWidget extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: BlocBuilder<TaskBloc, TaskState>(
           builder: (context, state) {
-            if (state.isLoading) {
+            if (state.error != null && state.error != null) {
+              return AppErrorWidget(
+                error: locale.loadingError,
+                actionName: locale.tryAgain,
+                action: () => context.read<TaskBloc>().add(TasksListLoaded()),
+              );
+            } else if (state.isLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state.tasks.isEmpty) {
               return Center(
